@@ -208,7 +208,49 @@ AI কখনো human approval ছাড়া production-এ কিছু deplo
 
 ---
 
-পরের পর্বে PM বসবেন, requirement বলবেন, আর Inception Agent সেটাকে proper plan-এ রূপান্তরিত করবে — live দেখব।
+পরের পর্বে **PM ভাই** বসবেন, requirement বলবেন, আর Inception Agent সেটাকে proper plan-এ রূপান্তরিত করবে — live দেখব।
+
+---
+
+## 📦 Full & Final Folder Structure (কোন agent কোথায় লেখে)
+
+চার agent মিলে memory-bank-এর কোন অংশ তৈরি করে — পুরো ছবিটা একসাথে:
+
+```
+memory-bank/
+│
+├── standards/                         ← 🧭 Master Agent
+│   ├── tech-stack.md
+│   ├── coding-standards.md
+│   └── system-architecture.md
+│
+├── intents/                           ← 🎯 Inception Agent
+│   └── 001-user-registration/
+│       ├── requirements.md
+│       ├── system-context.md
+│       └── units/
+│           ├── unit-1-role-model/
+│           │   ├── unit-brief.md
+│           │   └── stories/
+│           │       ├── US-001.md
+│           │       └── US-002.md
+│           └── ... (বাকি units)
+│
+├── bolts/                             ← 🎯 Inception (plan) + 🔨 Construction (execute)
+│   ├── bolt-101.md                    ← status: planned → in-progress → completed
+│   ├── bolt-102.md
+│   └── ...
+│
+└── operations/                        ← 🚀 Operations Agent
+    └── deployment-context.md
+```
+
+| Agent | Folder | কী করে |
+|---|---|---|
+| 🧭 Master | `standards/` | project initialize, dependency track |
+| 🎯 Inception | `intents/` + `bolts/` (plan) | intent, units, stories, bolt plan |
+| 🔨 Construction | `bolts/` (execute) | bolt-এর status update, decisions |
+| 🚀 Operations | `operations/` | deployment context, monitoring config |
 
 ---
 

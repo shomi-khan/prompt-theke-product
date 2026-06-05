@@ -1,7 +1,7 @@
 # পর্ব ৪ — Construction Phase 🔨
 
 > *"এখন বলো AI, code লেখো।"*
-> — Sami, optimistically
+> — BE ভাই, optimistically
 
 > *"অবশ্যই। তার আগে domain model approve করুন।
 >  তারপর API design approve করুন।
@@ -10,31 +10,37 @@
 > — Construction Agent
 
 > *"...ঠিক আছে।"*
-> — Sami, humbled
+> — BE ভাই, humbled
 
 Construction Phase মানে AI এবং human একসাথে বসে কাজ করা। AI একা দৌড়ায় না, human ঘুমায় না।
 
 ---
 
-## 🏗️ Construction Agent কীভাবে কাজ করে?
+## 🟢 Construction আসলে কী করে?
 
-প্রতিটি Bolt-এর জন্য Construction Agent এই stages follow করে:
+Inception যেখানে বলেছিল "কী বানাবো এবং কেন", Construction সেখানে বলে **"কীভাবে বানাবো?" (HOW)**।
+
+Inception phase-এর validated context নিয়ে AI এবার logical architecture, domain model, code আর test propose করে। পুরো team real-time-এ technical সিদ্ধান্ত আর architectural choice-এ clarification দেয় — এই ritual-টার নাম **Mob Construction**।
+
+কাজটা হয় **Bolt** ধরে ধরে — Bolt হলো sprint-এর জায়গায় বসা ছোট, intense work cycle (ঘণ্টা বা দিন, সপ্তাহ না)। প্রতিটি Bolt এই DDD stages-এ execute হয়:
 
 ```
 Stage 1: Domain Model     → business entities কীভাবে সাজাবো?
 Stage 2: Technical Design → API, patterns, architecture
-Stage 3: Code Plan        → কোন file আগে, কোনটা পরে
+Stage 3: ADR + Code Plan  → কী decision কেন নিলাম, কোন file আগে/পরে
 Stage 4: Code Generation  → actual code
 Stage 5: Quality Gate     → test + lint + typecheck — সব pass করতে হবে
 ```
 
-প্রতিটি stage-এ ⛔ Human Checkpoint আছে।
+প্রতিটি stage-এ ⛔ Human Checkpoint আছে। কোনো stage skip হয় না, কোনো gate জোর করে pass করানো যায় না।
+
+> 💡 **ADR (Architecture Decision Record):** কেন এই pattern নিলাম, কেন ওটা না — গুরুত্বপূর্ণ technical সিদ্ধান্তগুলো লিখে রাখা হয়, যাতে ৩ মাস পরে কেউ "এটা কেন এভাবে?" জিজ্ঞেস করলে উত্তর থাকে।
 
 ---
 
 ## 🎬 Bolt 1.1: Django User Model Extension
 
-Sami command দেয়:
+BE ভাই command দেন:
 
 ```
 /specsmd-construction-agent bolt-start
@@ -66,7 +72,7 @@ User (AbstractUser extend):
 ✋ এই domain model কি ঠিক আছে?
 ```
 
-**Sami:** "is_active=False default — এটা important। ঠিক আছে।"
+**BE ভাই:** "is_active=False default — এটা important। ঠিক আছে।"
 
 ```
 Construction Agent: Stage 2 — Technical Design:
@@ -79,7 +85,7 @@ Migration strategy:
 ✋ Approve?
 ```
 
-**Sami:** "হ্যাঁ।"
+**BE ভাই:** "হ্যাঁ।"
 
 ```
 Construction Agent: Stage 3 — Code Plan:
@@ -93,7 +99,7 @@ Construction Agent: Stage 3 — Code Plan:
 ✋ Plan approve করবেন?
 ```
 
-**Sami:** "ঠিক আছে।"
+**BE ভাই:** "ঠিক আছে।"
 
 ```
 Construction Agent: Stage 4 — Code লিখছি...
@@ -162,7 +168,7 @@ Status values:
 ✋ Domain model ঠিক আছে?
 ```
 
-**Sami একটু ভেবে:** "unique_together লাগবে email + company-তে — duplicate block করতে।"
+**BE ভাই একটু ভেবে:** "unique_together লাগবে email + company-তে — duplicate block করতে।"
 
 ```
 Construction Agent: ঠিক বলেছেন। যোগ করছি।
@@ -172,7 +178,7 @@ Construction Agent: ঠিক বলেছেন। যোগ করছি।
 ✋ এখন approve?
 ```
 
-**Sami:** "হ্যাঁ।"
+**BE ভাই:** "হ্যাঁ।"
 
 ```
 Construction Agent: Stage 2 — Technical Design:
@@ -200,7 +206,7 @@ Invalid transition হলে → Exception raise করবে
 ✋ State machine logic ঠিক আছে?
 ```
 
-**Sami:** "Flow 3-তে SA feedback দিলে Company Admin থেকে পুরো loop restart — এটা confirm। ঠিক আছে।"
+**BE ভাই:** "Flow 3-তে SA feedback দিলে Company Admin থেকে পুরো loop restart — এটা confirm। ঠিক আছে।"
 
 ```
 Construction Agent: Stage 3 — Code Plan:
@@ -215,7 +221,7 @@ Construction Agent: Stage 3 — Code Plan:
 ✋ Plan approve?
 ```
 
-**Sami:** "হ্যাঁ।"
+**BE ভাই:** "হ্যাঁ।"
 
 ```
 Construction Agent: Code লিখছি...
@@ -263,7 +269,7 @@ Technical Design:
 ✋ Approve?
 ```
 
-**Sami:** "Template-এ expiry time দেখানো দরকার।"
+**BE ভাই:** "Template-এ expiry time দেখানো দরকার।"
 
 ```
 Construction Agent: যোগ করছি — expires_at context-এ যাবে।
@@ -318,7 +324,7 @@ Domain Model:
 ✋ Approve?
 ```
 
-**Sami:** "SuperAdminReview-এ feedback empty হলে 400 দিতে হবে।"
+**BE ভাই:** "SuperAdminReview-এ feedback empty হলে 400 দিতে হবে।"
 
 ```
 Construction Agent: হ্যাঁ, validation যোগ করছি।
@@ -349,7 +355,7 @@ Bolt 4.1 → COMPLETED ✅
 
 ## 🎬 Bolt 6.1: Shared Invitation Details Page (Frontend)
 
-এবার Nila-র পালা।
+এবার FE আপার পালা।
 
 ```
 Construction Agent: Bolt 6.1 শুরু করছি।
@@ -372,7 +378,7 @@ States:
 ✋ State design ঠিক আছে?
 ```
 
-**Nila:** "Approve/Reject-এর পরে loading state দরকার — double submit prevent করতে।"
+**FE আপা:** "Approve/Reject-এর পরে loading state দরকার — double submit prevent করতে।"
 
 ```
 Construction Agent: ঠিক কথা। isSubmitting state যোগ করছি।
@@ -406,17 +412,7 @@ Bolt 6.1 → COMPLETED ✅
 
 ## 📊 Construction শেষে অবস্থা
 
-সব 18টি Bolt complete হওয়ার পর:
-
-```
-memory-bank/bolts/
-    ├── bolt-101.md  ✅ completed
-    ├── bolt-102.md  ✅ completed
-    ├── bolt-201.md  ✅ completed
-    ├── bolt-202.md  ✅ completed
-    ├── bolt-203.md  ✅ completed
-    ... (বাকি ১৩টি) ✅ completed
-```
+সব 18টি Bolt complete হওয়ার পর `memory-bank/bolts/`-এর প্রতিটি bolt-এর status `completed` হয়ে যায়, আর `src/`-এ actual code তৈরি হয়।
 
 **⛔ Construction Final Gate:**
 
@@ -438,7 +434,83 @@ All quality gates passed।
 Operations phase শুরু করব?
 ```
 
-**Sami, Nila:** "হ্যাঁ।"
+**BE ভাই, FE আপা:** "হ্যাঁ।"
+
+---
+
+## 📦 Full & Final Folder Structure (Construction শেষে)
+
+Construction শেষে দুটো জিনিস পূর্ণ হয় — `memory-bank/bolts/` (সব completed) আর `src/` (actual code)। পুরো ছবিটা:
+
+```
+my-project/
+│
+├── memory-bank/
+│   ├── standards/                          ✅ (অপরিবর্তিত)
+│   ├── intents/001-user-registration/      ✅ (অপরিবর্তিত)
+│   ├── bolts/                              ← সব 18টি এখন completed
+│   │   ├── bolt-101-user-model.md          ✅ completed
+│   │   ├── bolt-102-permissions.md         ✅ completed
+│   │   ├── bolt-201-invitation-model.md    ✅ completed
+│   │   ├── bolt-202-email-service.md       ✅ completed
+│   │   ├── bolt-203-token-validation.md    ✅ completed
+│   │   ├── bolt-301-flow1-api.md           ✅ completed
+│   │   ├── bolt-302-flow1-ui.md            ✅ completed
+│   │   ├── bolt-401-ca-invite-api.md       ✅ completed
+│   │   ├── bolt-402-sa-review-api.md       ✅ completed
+│   │   ├── bolt-403-ca-resubmit-api.md     ✅ completed
+│   │   ├── bolt-404-flow2-ui.md            ✅ completed
+│   │   ├── bolt-501-self-reg-api.md        ✅ completed
+│   │   ├── bolt-502-ca-review-api.md       ✅ completed
+│   │   ├── bolt-503-sa-review-api.md       ✅ completed
+│   │   ├── bolt-504-flow3-ui.md            ✅ completed
+│   │   ├── bolt-601-details-page.md        ✅ completed
+│   │   ├── bolt-602-error-pages.md         ✅ completed
+│   │   └── ... (701, 702, 801, 802) ✅ completed
+│   └── operations/                         ← এখনো খালি (পরের পর্বে)
+│
+└── src/                                    ← 🆕 এই পর্বে তৈরি হলো
+    ├── backend/
+    │   ├── config/
+    │   │   ├── settings.py                  (AUTH_USER_MODEL = 'accounts.User')
+    │   │   └── urls.py
+    │   ├── accounts/                        ← Unit 1
+    │   │   ├── models.py                     (Company, User)
+    │   │   ├── admin.py
+    │   │   ├── migrations/
+    │   │   └── tests/test_models.py
+    │   ├── invitations/                     ← Unit 2-5
+    │   │   ├── models.py                     (Invitation, 8-state)
+    │   │   ├── state_machine.py
+    │   │   ├── email_service.py
+    │   │   ├── views.py                      (Flow 1/2/3 ViewClasses)
+    │   │   ├── serializers.py
+    │   │   ├── urls.py
+    │   │   ├── migrations/
+    │   │   ├── emails/                       (4টি HTML template)
+    │   │   └── tests/
+    │   │       ├── test_state_machine.py
+    │   │       ├── test_flow2.py
+    │   │       └── ...
+    │   └── requirements.txt
+    │
+    └── frontend/
+        ├── package.json
+        └── src/
+            ├── pages/
+            │   ├── InvitationDetailsPage.jsx    ← Unit 6 (shared)
+            │   ├── LinkExpiredPage.jsx
+            │   ├── InvalidLinkPage.jsx
+            │   └── PasswordSetupPage.jsx        ← Unit 7
+            ├── components/
+            │   ├── InvitationSummary.jsx
+            │   ├── FeedbackBanner.jsx
+            │   └── EditableRegistrationForm.jsx
+            └── tests/
+                └── InvitationDetailsPage.test.jsx
+```
+
+> 📌 এখন `standards/`, `intents/`, `bolts/` (সব completed), আর `src/` — সব ভরা। বাকি শুধু `operations/` — পরের পর্বে deploy করতে গিয়ে ভরবে।
 
 ---
 

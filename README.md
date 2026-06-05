@@ -7,7 +7,7 @@
 
 চেনা চেনা লাগছে? 😅
 
-এই repo-টা সেই গল্পের একটা সুখী সংস্করণ — যেখানে AI-DLC ব্যবহার করে PM, Backend Developer, আর Frontend Developer একসাথে বসে requirement থেকে delivery পর্যন্ত পুরো জিনিসটা গুছিয়ে করেছেন। কেউ কাঁদেননি। (প্রায়।)
+এই repo-টা সেই গল্পের একটা সুখী সংস্করণ — যেখানে AI-DLC ব্যবহার করে **PM ভাই**, **BE ভাই** (Backend), আর **FE আপা** (Frontend) একসাথে বসে requirement থেকে delivery পর্যন্ত পুরো জিনিসটা গুছিয়ে করেছেন। কেউ কাঁদেননি। (প্রায়।)
 
 ---
 
@@ -66,31 +66,61 @@ Google Maps-এর মতো — তুমি destination ঠিক করো, A
 
 ## 📐 তিনটি Phase
 
-AI-DLC-এর পুরো জীবনচক্র তিনটা phase-এ ভাগ:
+AI-DLC-এর পুরো জীবনচক্র তিনটা phase-এ ভাগ। প্রতিটা phase একটা নির্দিষ্ট প্রশ্নের উত্তর দেয়:
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  INCEPTION                                      │
-│  "কী বানাবো এবং কেন?" — কোনো code নেই এখনো   │
+│  INCEPTION                                       │
+│  "কী বানাবো এবং কেন?" (WHAT + WHY)               │
+│  — কোনো code নেই এখনো                            │
 └──────────────────┬──────────────────────────────┘
                    ↓
 ┌─────────────────────────────────────────────────┐
-│  CONSTRUCTION                                   │
-│  "বানাচ্ছি" — AI code লেখে, human দেখে        │
+│  CONSTRUCTION                                    │
+│  "কীভাবে বানাবো?" (HOW)                          │
+│  — AI design + code লেখে, human real-time দেখে   │
 └──────────────────┬──────────────────────────────┘
                    ↓
 ┌─────────────────────────────────────────────────┐
-│  OPERATIONS                                     │
-│  "চালু করছি এবং দেখছি" — deploy + monitor     │
+│  OPERATIONS                                      │
+│  "চালু করছি এবং দেখছি"                            │
+│  — deploy + monitor, accumulated context দিয়ে   │
 └─────────────────────────────────────────────────┘
 ```
 
-**Inception** — এখানে সব ambiguity শেষ করতে হবে। এখানে প্রশ্ন না করলে পরে কাঁদতে হবে। Intent ভেঙে Units, Units ভেঙে Stories, Stories থেকে Bolt Plan — সব ambiguity এখানেই শেষ, code এখনো নেই।
+একটা গুরুত্বপূর্ণ কথা: AI-DLC **waterfall না**, এটা একটা **loop**। প্রতিটা Bolt-এর জন্য এই তিন phase ঘুরে আসা যায় — ঘণ্টায় বা দিনে, সপ্তাহে না। আর প্রতিটা phase নিজের complexity বুঝে depth ঠিক করে (adaptive) — ছোট কাজে কম ceremony, বড় কাজে বেশি।
 
-**Construction** — প্রতিটা Bolt execute করো — Domain Model
-                 → Design → Code → Tests → Quality Gate।
+### 🔵 Inception — "কী বানাবো এবং কেন?"
 
-**Operations** — Build করো, deploy করো, দেখো কিছু আগুন লাগলো কিনা।
+এখানে business intent কে detailed requirement-এ রূপান্তর করা হয়। AI প্রশ্ন করে, মানুষ উত্তর দেয় — এই ritual-টার নাম **Mob Elaboration** (পুরো team একসাথে বসে AI-এর প্রশ্ন ও proposal validate করে)। চারটা ধাপ:
+
+```
+Capture (Intent ধরা) → Elaborate (প্রশ্ন করে ambiguity দূর করা)
+   → Decompose (Units + Stories-এ ভাঙা) → Plan Bolts (execution order)
+```
+
+এখানে একটাও code লেখা হয় না। এখানে প্রশ্ন না করলে পরেই কাঁদতে হবে। **Output:** Intent, Units, Stories (acceptance criteria সহ), আর Bolt Plan।
+
+### 🟢 Construction — "কীভাবে বানাবো?"
+
+Inception-এর validated context নিয়ে AI এবার logical architecture, domain model, code আর test propose করে। এই ritual-টার নাম **Mob Construction** (team real-time-এ technical ও architectural সিদ্ধান্তে clarification দেয়)। প্রতিটা Bolt এই DDD stages-এ execute হয়:
+
+```
+Domain Model → Technical Design → ADR (Architecture Decision Record)
+   → Code → Tests → Quality Gate
+```
+
+প্রতিটা stage-এ human checkpoint। **Output:** Domain Model, Code, Tests — সব quality gate pass করে।
+
+### 🟡 Operations — "চালু করছি এবং দেখছি"
+
+আগের দুই phase-এর accumulated context নিয়ে AI infrastructure-as-code আর deployment manage করে, মানুষ oversight দেয়। চারটা ধাপ:
+
+```
+Build → Deploy → Verify (smoke test) → Monitor
+```
+
+Production-এ যাওয়ার আগে অবশ্যই human approval। **Output:** Deployment + Monitoring setup।
 
 ---
 
@@ -107,7 +137,9 @@ AI-DLC-এর পুরো জীবনচক্র তিনটা phase-এ �
 
 ---
 
-> 💡 **এই repo-তে যা দেখবেন:** একটা real feature — User Registration System (Django + React) — AI-DLC follow করে requirement থেকে delivery পর্যন্ত। তিনজন মানুষ: একজন PM, একজন Backend Developer, একজন Frontend Developer। আর একটা AI যে কাজ করে কিন্তু কখনো একা সিদ্ধান্ত নেয় না।
+> 💡 **এই repo-তে যা দেখবেন:** একটা real feature — User Registration System (Django + React) — AI-DLC follow করে requirement থেকে delivery পর্যন্ত। তিনজন মানুষ: **PM ভাই**, **BE ভাই** (Backend), আর **FE আপা** (Frontend)। আর একটা AI যে কাজ করে কিন্তু কখনো একা সিদ্ধান্ত নেয় না।
+>
+> নাম মনে রাখার দরকার নেই — কে কোন role-এ সেটাই যথেষ্ট: **PM ভাই** requirement বলেন, **BE ভাই** backend দেখেন, **FE আপা** frontend দেখেন।
 
 ---
 

@@ -206,4 +206,48 @@ my-project/
 
 ---
 
+## 📦 Full & Final Folder Structure (এই পর্ব শেষে)
+
+Install + `project-init` এর পরে, code লেখা শুরুর ঠিক আগে — পুরো project দেখতে এরকম হবে। এটাই এই পর্বের reference structure:
+
+```
+my-project/
+│
+├── .specsmd/                          ← specs.md engine (ছুঁবে না)
+│   ├── manifest.yaml                  ← কোন flow, কোন version
+│   └── aidlc/
+│       ├── agents/                    ← ৪টি agent-এর instruction
+│       │   ├── master-agent.md
+│       │   ├── inception-agent.md
+│       │   ├── construction-agent.md
+│       │   └── operations-agent.md
+│       ├── skills/                    ← কোন কাজে কোন skill
+│       ├── templates/                 ← requirements.md, unit-brief.md ইত্যাদির template
+│       └── memory-bank.yaml           ← memory-bank schema
+│
+├── .claude/                           ← AI tool-এর slash commands
+│   └── commands/                      ← (Cursor হলে .cursor/commands/,
+│       ├── specsmd-master-agent.md       Copilot হলে .github/agents/)
+│       ├── specsmd-inception-agent.md
+│       ├── specsmd-construction-agent.md
+│       └── specsmd-operations-agent.md
+│
+├── memory-bank/                       ← project-এর brain (সব context এখানে)
+│   ├── standards/                     ← Master Agent লেখে
+│   │   ├── tech-stack.md
+│   │   ├── coding-standards.md
+│   │   └── system-architecture.md
+│   ├── intents/                       ← Inception Agent লেখে (এখনো খালি)
+│   ├── bolts/                         ← Inception + Construction লেখে (এখনো খালি)
+│   └── operations/                    ← Operations Agent লেখে (এখনো খালি)
+│
+└── src/                               ← তোমার actual code (এখনো খালি)
+    ├── backend/
+    └── frontend/
+```
+
+> 📌 এখন `intents/`, `bolts/`, `operations/`, `src/` খালি — এগুলো পরের phase-গুলোতে ভরবে। কিন্তু কাঠামোটা শুরুতেই জানা থাকলে পরে হারাবে না।
+
+---
+
 [← README](./README.md) | [পর্ব ২ → চার Agent, চার ভূমিকা](./পর্ব-২-agents-পরিচয়.md)

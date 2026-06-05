@@ -1,21 +1,38 @@
 # পর্ব ৩ — Inception Phase 🎯
 
 > *"Requirement simple। User register করবে। ব্যস।"*
-> — PM (সকাল ১০টায়)
+> — PM ভাই (সকাল ১০টায়)
 >
 > *"তো... ৩টা flow, ৩টা role, dual approval loop, আর feedback cycle?"*
-> — Backend Developer (বিকেল ৪টায়)
+> — BE ভাই (বিকেল ৪টায়)
 
 Inception Phase-এর কাজই হলো সকালের "simple requirement" থেকে বিকেলের "এত কিছু?!" পর্যন্ত পুরো রাস্তাটা **code লেখার আগেই** আবিষ্কার করা।
 
 ---
 
+## 🔵 Inception আসলে কী করে?
+
+Inception একটাই প্রশ্নের উত্তর দেয়: **"কী বানাবো এবং কেন?" (WHAT + WHY)** — কীভাবে বানাবো সেটা পরের phase।
+
+পুরো team একসাথে বসে AI-এর প্রশ্ন আর proposal validate করে — এই ritual-টার নাম **Mob Elaboration**। AI প্রস্তাব দেয়, মানুষ সিদ্ধান্ত নেয়। চারটা ধাপে কাজটা এগোয়:
+
+```
+১. Capture    → business intent এক জায়গায় ধরা
+২. Elaborate  → প্রশ্ন করে করে সব ambiguity দূর করা
+৩. Decompose  → intent → Units → Stories (acceptance criteria সহ)
+৪. Plan Bolts → কোন কাজ কোন order-এ হবে, dependency সহ
+```
+
+এই পুরো phase-এ **একটাও line code লেখা হয় না।** এখানে যা যা প্রশ্ন উঠবে, সব এখনই মিটিয়ে ফেলতে হবে — কারণ এখানকার একটা unresolved প্রশ্ন মানে production-এ একটা bug।
+
+---
+
 ## 🎬 দৃশ্যকল্প
 
-**রুমে তিনজন:**
-- 🧑‍💼 **Rafiq ভাই** — PM
-- 👨‍💻 **Sami** — Backend Developer (Django)
-- 👩‍💻 **Nila** — Frontend Developer (React)
+**রুমে তিনজন** (নাম মনে রাখার দরকার নেই, role-ই যথেষ্ট):
+- 🧑‍💼 **PM ভাই** — product/requirement
+- 👨‍💻 **BE ভাই** — Backend Developer (Django)
+- 👩‍💻 **FE আপা** — Frontend Developer (React)
 
 **লক্ষ্য:** User Registration System বানাতে হবে।
 
@@ -23,7 +40,7 @@ Inception Phase-এর কাজই হলো সকালের "simple require
 
 ## ধাপ ১ — Master Agent দিয়ে Project Initialize
 
-Sami প্রথমে terminal খোলে:
+BE ভাই প্রথমে terminal খোলেন:
 
 ```
 /specsmd-master-agent project-init
@@ -35,7 +52,7 @@ Sami প্রথমে terminal খোলে:
 Master: Tech stack কী হবে?
 ```
 
-**Sami বলে:**
+**BE ভাই বলেন:**
 ```
 Backend: Django + Django REST Framework
 Frontend: React
@@ -48,7 +65,7 @@ Testing: pytest-django (backend), Jest + RTL (frontend)
 Master: Coding conventions?
 ```
 
-**Sami বলে:**
+**BE ভাই বলেন:**
 ```
 Backend: snake_case, RESTful API, JSON responses
 Frontend: camelCase, functional components
@@ -86,13 +103,13 @@ memory-bank/standards/system-architecture.md ✅ তৈরি
 
 ⛔ **Human Checkpoint:** "এই standards কি ঠিক আছে?"
 
-Sami ও Nila দেখেন, Sami বলেন "হ্যাঁ।"
+BE ভাই ও FE আপা দেখেন, BE ভাই বলেন "হ্যাঁ।"
 
 ---
 
 ## ধাপ ২ — Inception Agent: Intent Capture
 
-এখন Rafiq ভাই সামনে বসেন। Sami command দেয়:
+এখন PM ভাই সামনে বসেন। BE ভাই command দেন:
 
 ```
 /specsmd-inception-agent intent-create
@@ -103,7 +120,7 @@ Sami ও Nila দেখেন, Sami বলেন "হ্যাঁ।"
 Inception: আপনার business goal কী? কী বানাতে চান?
 ```
 
-**Rafiq ভাই বলেন:**
+**PM ভাই বলেন:**
 ```
 আমাদের system-এ তিনটা role আছে — Super Admin,
 Company Admin, আর Company Employee।
@@ -144,7 +161,7 @@ Super Admin, Company Admin, এবং Company Employee
 
 ## ধাপ ৩ — Mob Elaboration: AI প্রশ্ন করে, সবাই মিলে উত্তর দেয়
 
-এটাই Inception Phase-এর সবচেয়ে গুরুত্বপূর্ণ অংশ। Inception Agent একে একে সব ambiguity তুলে ধরে।
+এটাই Inception Phase-এর সবচেয়ে গুরুত্বপূর্ণ অংশ — এই ritual-টার নাম **Mob Elaboration**। Inception Agent একে একে সব ambiguity তুলে ধরে, পুরো team মিলে উত্তর দেয়।
 
 **Inception Agent:**
 ```
@@ -152,7 +169,7 @@ Super Admin, Company Admin, এবং Company Employee
           Expire হলে কী হবে?
 ```
 
-**Rafiq ভাই:**
+**PM ভাই:**
 ```
 ৭২ ঘণ্টা। Expire হলে নতুন invite পাঠাতে হবে।
 ```
@@ -164,7 +181,7 @@ Super Admin, Company Admin, এবং Company Employee
           এই loop কি unlimited? নাকি limit আছে?
 ```
 
-**Rafiq ভাই একটু ভাবেন:**
+**PM ভাই একটু ভাবেন:**
 ```
 Hmm... unlimited রাখি এখন।
 ```
@@ -176,7 +193,7 @@ Hmm... unlimited রাখি এখন।
           সেটা কি Company Admin থেকে আবার শুরু হবে?
 ```
 
-**Rafiq ভাই:**
+**PM ভাই:**
 ```
 হ্যাঁ, পুরো loop restart।
 ```
@@ -187,7 +204,7 @@ Hmm... unlimited রাখি এখন।
           invitation থাকতে পারবে?
 ```
 
-**Sami:**
+**BE ভাই:**
 ```
 না, same email + same company-তে একটাই
 active invitation থাকতে পারবে।
@@ -199,7 +216,7 @@ active invitation থাকতে পারবে।
           password setup link কতক্ষণ valid?
 ```
 
-**Rafiq ভাই:**
+**PM ভাই:**
 ```
 ২৪ ঘণ্টা।
 ```
@@ -218,7 +235,7 @@ active invitation থাকতে পারবে।
 
 ⛔ **Human Checkpoint:** "সব clarification কি correct?"
 
-তিনজনই দেখেন, approve করেন।
+তিনজনই (PM ভাই, BE ভাই, FE আপা) দেখেন, approve করেন।
 
 ---
 
@@ -248,8 +265,8 @@ Unit 1 → Unit 8 (independent)
 ✋ এই breakdown কি ঠিক আছে?
 ```
 
-**Sami:** "Unit 2 আর Unit 4-এর approval API আলাদা করাটা ঠিক আছে।"
-**Nila:** "Unit 6 shared — এটা important। ঠিক আছে।"
+**BE ভাই:** "Unit 2 আর Unit 4-এর approval API আলাদা করাটা ঠিক আছে।"
+**FE আপা:** "Unit 6 shared — এটা important। ঠিক আছে।"
 
 **✅ Approved।**
 
@@ -323,7 +340,7 @@ super_admin_feedback → [flow-dependent]
 ✋ Stories কি সব business rules cover করেছে?
 ```
 
-**Rafiq ভাই:** "Status machine-এ 'rejected' আর 'expired' status যোগ করো।"
+**PM ভাই:** "Status machine-এ 'rejected' আর 'expired' status যোগ করো।"
 
 **Inception Agent:** "অবশ্যই।" — stories update করে।
 
@@ -396,8 +413,8 @@ Execution order: Unit 1 → Unit 2 → Unit 3,4,5 (parallel possible)
 ✋ Bolt plan approve করবেন?
 ```
 
-**Sami:** "Unit 3, 4, 5 parallel করতে পারব — Bolt 2.1 শেষ হলে।"
-**Nila:** "Unit 6, 7 আমি শুরু করব Unit 2.3 শেষ হলে।"
+**BE ভাই:** "Unit 3, 4, 5 parallel করতে পারব — Bolt 2.1 শেষ হলে।"
+**FE আপা:** "Unit 6, 7 আমি শুরু করব Unit 2.3 শেষ হলে।"
 
 **✅ Approved।**
 
@@ -454,41 +471,80 @@ Inception Phase summary:
 Construction phase শুরু করব?
 ```
 
-**Rafiq ভাই, Sami, Nila:** "হ্যাঁ।"
+**PM ভাই, BE ভাই, FE আপা:** "হ্যাঁ।"
 
 **Master Agent:** "Inception complete। Unit 1 construction শুরু করো।"
 
 ---
 
-## 📁 Inception শেষে memory-bank-এর অবস্থা
+## 📦 Full & Final Folder Structure (Inception শেষে)
+
+Inception শেষে memory-bank-এর সম্পূর্ণ অবস্থা — কোনো কিছু truncate করা নেই, এটাই পুরো ছবি:
 
 ```
 memory-bank/
-├── standards/
-│   ├── tech-stack.md              ✅
-│   ├── coding-standards.md        ✅
-│   └── system-architecture.md     ✅
 │
-└── intents/
-    └── 001-user-registration/
-        ├── requirements.md        ✅ (stories + NFR + clarifications)
-        ├── system-context.md      ✅ (scope, out-of-scope)
-        └── units/
-            ├── unit-1-role-model/
-            │   ├── unit-brief.md  ✅
-            │   └── stories/       ✅ (2 stories)
-            ├── unit-2-invitation-engine/
-            │   ├── unit-brief.md  ✅
-            │   └── stories/       ✅ (3 stories)
-            ... (বাকি 6 units)
-
-memory-bank/bolts/
-    ├── bolt-101.md  ✅ planned
-    ├── bolt-102.md  ✅ planned
-    ... (18টি bolt, সব planned)
+├── standards/
+│   ├── tech-stack.md                       ✅
+│   ├── coding-standards.md                 ✅
+│   └── system-architecture.md              ✅
+│
+├── intents/
+│   └── 001-user-registration/
+│       ├── requirements.md                 ✅ (stories + NFR + clarifications)
+│       ├── system-context.md               ✅ (scope, out-of-scope)
+│       └── units/
+│           ├── unit-1-role-model/
+│           │   ├── unit-brief.md            ✅
+│           │   └── stories/                 ✅ (US-101, US-102)
+│           ├── unit-2-invitation-engine/
+│           │   ├── unit-brief.md            ✅
+│           │   └── stories/                 ✅ (US-201, US-202, US-203)
+│           ├── unit-3-flow1/
+│           │   ├── unit-brief.md            ✅
+│           │   └── stories/                 ✅
+│           ├── unit-4-flow2/
+│           │   ├── unit-brief.md            ✅
+│           │   └── stories/                 ✅
+│           ├── unit-5-flow3/
+│           │   ├── unit-brief.md            ✅
+│           │   └── stories/                 ✅
+│           ├── unit-6-shared-invitation-page/
+│           │   ├── unit-brief.md            ✅
+│           │   └── stories/                 ✅
+│           ├── unit-7-password-setup/
+│           │   ├── unit-brief.md            ✅
+│           │   └── stories/                 ✅
+│           └── unit-8-role-promotion/
+│               ├── unit-brief.md            ✅
+│               └── stories/                 ✅
+│
+├── bolts/                                   ← সব 18টি, status: planned
+│   ├── bolt-101-user-model.md              ✅ planned
+│   ├── bolt-102-permissions.md             ✅ planned
+│   ├── bolt-201-invitation-model.md        ✅ planned
+│   ├── bolt-202-email-service.md           ✅ planned
+│   ├── bolt-203-token-validation.md        ✅ planned
+│   ├── bolt-301-flow1-api.md               ✅ planned
+│   ├── bolt-302-flow1-ui.md                ✅ planned
+│   ├── bolt-401-ca-invite-api.md           ✅ planned
+│   ├── bolt-402-sa-review-api.md           ✅ planned
+│   ├── bolt-403-ca-resubmit-api.md         ✅ planned
+│   ├── bolt-404-flow2-ui.md                ✅ planned
+│   ├── bolt-501-self-reg-api.md            ✅ planned
+│   ├── bolt-502-ca-review-api.md           ✅ planned
+│   ├── bolt-503-sa-review-api.md           ✅ planned
+│   ├── bolt-504-flow3-ui.md                ✅ planned
+│   ├── bolt-601-details-page.md            ✅ planned
+│   ├── bolt-602-error-pages.md             ✅ planned
+│   └── ... (701, 702, 801, 802 সহ মোট 18টি) ✅ planned
+│
+└── operations/                             ← এখনো খালি (Operations phase-এ ভরবে)
 ```
 
-এখন একটাও code লেখা হয়নি। কিন্তু সবাই জানেন কী হবে, কীভাবে হবে, কোন order-এ হবে। PM জানেন। Backend জানেন। Frontend জানেন।
+> 📌 `standards/` ভরা, `intents/` ভরা, `bolts/` সব planned — কিন্তু `src/` এখনো খালি আর `operations/` এখনো খালি। পরের পর্বে `bolts/` execute হবে আর `src/` ভরবে।
+
+এখন একটাও code লেখা হয়নি। কিন্তু সবাই জানেন কী হবে, কীভাবে হবে, কোন order-এ হবে। PM ভাই জানেন। BE ভাই জানেন। FE আপা জানেন।
 
 এটাই Inception Phase-এর সাফল্য।
 

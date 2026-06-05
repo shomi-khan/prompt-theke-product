@@ -9,10 +9,10 @@
 
 ## 🎬 গল্পের সারসংক্ষেপ
 
-**তিনজন ছিলেন:**
-- 🧑‍💼 Rafiq ভাই — PM
-- 👨‍💻 Sami — Backend Developer
-- 👩‍💻 Nila — Frontend Developer
+**তিনজন ছিলেন** (নাম না, role-ই আসল):
+- 🧑‍💼 PM ভাই — product/requirement
+- 👨‍💻 BE ভাই — Backend Developer
+- 👩‍💻 FE আপা — Frontend Developer
 
 **একটা feature ছিল:**
 - User Registration System (Django + React, 3 flows, 3 roles)
@@ -42,8 +42,8 @@ Master Agent
 
 Inception Agent
   └─ intent-create
-      ├─ Rafiq ভাই requirement বললেন
-      ├─ AI 5টি clarifying question করল
+      ├─ PM ভাই requirement বললেন
+      ├─ AI 5টি clarifying question করল (Mob Elaboration)
       ├─ requirements.md ✅
       └─ system-context.md ✅
 
@@ -110,38 +110,70 @@ Operations Agent
 
 ---
 
-## 📁 memory-bank Final State
+## 📦 Full & Final Folder Structure (পুরো project, সম্পূর্ণ)
+
+পুরো journey শেষে project যেমন দাঁড়ায় — engine, commands, memory-bank, আর code — সবকিছু একসাথে:
 
 ```
-memory-bank/
-├── standards/
-│   ├── tech-stack.md              ✅
-│   ├── coding-standards.md        ✅
-│   └── system-architecture.md     ✅
+my-project/
 │
-├── intents/
-│   └── 001-user-registration/
-│       ├── requirements.md        ✅ (stories, NFR, clarifications)
-│       ├── system-context.md      ✅
-│       └── units/
-│           ├── unit-1/  ✅
-│           ├── unit-2/  ✅
-│           ├── unit-3/  ✅
-│           ├── unit-4/  ✅
-│           ├── unit-5/  ✅
-│           ├── unit-6/  ✅
-│           ├── unit-7/  ✅
-│           └── unit-8/  ✅
+├── .specsmd/                               ← specs.md engine (ছুঁবে না)
+│   ├── manifest.yaml
+│   └── aidlc/
+│       ├── agents/ (master, inception, construction, operations)
+│       ├── skills/
+│       ├── templates/
+│       └── memory-bank.yaml
 │
-├── bolts/
-│   ├── bolt-101.md  ✅ completed
-│   ├── bolt-102.md  ✅ completed
-│   ├── bolt-201.md  ✅ completed
-│   ... (18টি, সব completed)
+├── .claude/commands/                       ← slash commands (4টি)
 │
-└── operations/
-    └── deployment-context.md  ✅
+├── memory-bank/                            ← project-এর brain (চারটাই পূর্ণ)
+│   ├── standards/
+│   │   ├── tech-stack.md                   ✅
+│   │   ├── coding-standards.md             ✅
+│   │   └── system-architecture.md          ✅
+│   │
+│   ├── intents/
+│   │   └── 001-user-registration/
+│   │       ├── requirements.md             ✅ (stories, NFR, clarifications)
+│   │       ├── system-context.md           ✅
+│   │       └── units/
+│   │           ├── unit-1-role-model/          ✅
+│   │           ├── unit-2-invitation-engine/   ✅
+│   │           ├── unit-3-flow1/                ✅
+│   │           ├── unit-4-flow2/                ✅
+│   │           ├── unit-5-flow3/                ✅
+│   │           ├── unit-6-shared-invitation-page/ ✅
+│   │           ├── unit-7-password-setup/      ✅
+│   │           └── unit-8-role-promotion/      ✅
+│   │
+│   ├── bolts/                              ← 18টি, সব completed
+│   │   ├── bolt-101 ... bolt-203           ✅ completed (Unit 1-2)
+│   │   ├── bolt-301 ... bolt-504           ✅ completed (Flow 1/2/3)
+│   │   ├── bolt-601, bolt-602              ✅ completed (Unit 6)
+│   │   └── bolt-701 ... bolt-802           ✅ completed (Unit 7-8)
+│   │
+│   └── operations/
+│       └── deployment-context.md           ✅ (env, infra, monitoring)
+│
+└── src/                                    ← actual code (deployed)
+    ├── backend/
+    │   ├── config/ (settings.py, urls.py)
+    │   ├── accounts/ (models, admin, migrations, tests)   ← Unit 1
+    │   ├── invitations/                                   ← Unit 2-5
+    │   │   ├── models.py, state_machine.py, email_service.py
+    │   │   ├── views.py, serializers.py, urls.py
+    │   │   ├── emails/ (4টি template)
+    │   │   └── tests/
+    │   └── requirements.txt
+    │
+    └── frontend/src/
+        ├── pages/ (InvitationDetailsPage, LinkExpired, InvalidLink, PasswordSetup)
+        ├── components/ (InvitationSummary, FeedbackBanner, EditableRegistrationForm)
+        └── tests/
 ```
+
+> 📌 চারটা memory-bank folder-ই পূর্ণ (`standards`, `intents`, `bolts`, `operations`), আর `src/`-এ deployed code। এটাই একটা সম্পূর্ণ AI-DLC project-এর চেহারা।
 
 ---
 
@@ -225,7 +257,7 @@ Test fail = bolt complete না। কোনো exception নেই।
 
 এই repo-টা লেখা হয়েছে এই বিশ্বাসে যে — ভালো documentation পড়তে bore লাগা উচিত না।
 
-Rafiq ভাই, Sami, Nila — এই তিনজন কাল্পনিক চরিত্র। কিন্তু গল্পটা real। প্রতিটি project-এ এই তিনজন থাকে। AI-DLC-এর কাজ তাদের একই page-এ রাখা।
+PM ভাই, BE ভাই, FE আপা — এই তিনজন কাল্পনিক চরিত্র। নাম দিইনি ইচ্ছে করেই — কারণ কে কোন role-এ সেটাই মনে রাখার মতো জিনিস, নাম না। প্রতিটি project-এ এই তিন role থাকে। AI-DLC-এর কাজ তাদের একই page-এ রাখা।
 
 Happy building! 🚀
 

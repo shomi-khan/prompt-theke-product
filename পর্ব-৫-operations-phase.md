@@ -9,9 +9,24 @@ Operations Agent এই পুরোটা handle করে। তুমি শ�
 
 ---
 
+## 🟡 Operations আসলে কী করে?
+
+আগের দুই phase-এর accumulated context (requirements, design, decisions — সব memory-bank-এ) নিয়ে Operations Agent এবার infrastructure-as-code আর deployment manage করে, মানুষ oversight দেয়। চারটা ধাপে কাজ এগোয়:
+
+```
+Build → Deploy → Verify (smoke test) → Monitor
+```
+
+দুটো জিনিস মাথায় রাখা জরুরি:
+
+- **Human-in-the-loop:** AI কখনো নিজে থেকে production-এ কিছু পাঠায় না। প্রতিটা environment-এ যাওয়ার আগে approval।
+- **Context carries over:** কোন env variable লাগবে, কোন flow test করতে হবে — সব AI আগের phase থেকে জানে, নতুন করে বলতে হয় না।
+
+---
+
 ## ⚙️ Operations Agent-কে ডাকো
 
-Sami command দেয়:
+BE ভাই command দেন:
 
 ```
 /specsmd-operations-agent deploy
@@ -30,7 +45,7 @@ Operations Agent: memory-bank পড়লাম।
   Local Docker
 ```
 
-**Sami:** "Staging আগে।"
+**BE ভাই:** "Staging আগে।"
 
 ---
 
@@ -65,7 +80,7 @@ Operations Agent: Build শুরু করছি।
    Staging deploy করব?
 ```
 
-**Sami:** "হ্যাঁ।"
+**BE ভাই:** "হ্যাঁ।"
 
 ---
 
@@ -108,14 +123,14 @@ Operations Agent: Staging deploy করছি।
    → Role promotion → works ✅
 
 ⛔ Staging সব ঠিক আছে।
-   Rafiq ভাইকে staging দেখাবেন?
+   PM ভাইকে staging দেখাবেন?
 ```
 
-**Sami:** "হ্যাঁ, Rafiq ভাইকে ডাকি।"
+**BE ভাই:** "হ্যাঁ, PM ভাইকে ডাকি।"
 
-Rafiq ভাই staging-এ নিজে তিনটা flow test করেন।
+PM ভাই staging-এ নিজে তিনটা flow test করেন।
 
-**Rafiq ভাই:** "একদম ঠিক আছে। Production-এ যাও।"
+**PM ভাই:** "একদম ঠিক আছে। Production-এ যাও।"
 
 ---
 
@@ -135,12 +150,12 @@ Operations Agent: Production deploy-এর আগে checklist:
    FINAL APPROVAL: Production deploy করব?
 ```
 
-**Sami:** "হ্যাঁ, করো।"
+**BE ভাই:** "হ্যাঁ, করো।"
 
 ```
 Operations Agent: Blue/Green deployment শুরু:
 
-→ নতুন version (Ranking System) deploy হলো
+→ নতুন version (User Registration System) deploy হলো
 → পুরনো version standby-তে আছে (24h)
 
 Traffic shift:
@@ -193,21 +208,47 @@ Report:
    Final sign-off দিবেন?
 ```
 
-**Rafiq ভাই:** "Perfect। Sign-off দিলাম।"
+**PM ভাই:** "Perfect। Sign-off দিলাম।"
 
 ---
 
 ## 🎊 শেষ কথা
 
-Rafiq ভাই সেই কথাটা বললেন না — *"এটা তো আমি বলিনি।"*
+PM ভাই সেই কথাটা বললেন না — *"এটা তো আমি বলিনি।"*
 
 কারণ Inception Phase-এই সব বলা হয়েছিল, সব প্রশ্ন করা হয়েছিল, সব document হয়েছিল।
 
-Sami কাঁদলেন না।
-Nila frustrated হলেন না।
-PM খুশি।
+BE ভাই কাঁদলেন না।
+FE আপা frustrated হলেন না।
+PM ভাই খুশি।
 
 **AI-DLC-এর সাফল্য এখানেই।**
+
+---
+
+## 📦 Full & Final Folder Structure (Operations শেষে)
+
+Operations শেষে শেষ folder-টাও ভরে — `operations/`। এটাই পুরো project-এর সম্পূর্ণ end-state:
+
+```
+my-project/
+│
+├── .specsmd/                               ✅ (engine, অপরিবর্তিত)
+├── .claude/commands/                       ✅ (slash commands)
+│
+├── memory-bank/
+│   ├── standards/                          ✅ (tech-stack, coding-standards, architecture)
+│   ├── intents/001-user-registration/      ✅ (requirements, units, 24 stories)
+│   ├── bolts/                              ✅ (18টি, সব completed)
+│   └── operations/                         ← 🆕 এই পর্বে তৈরি হলো
+│       └── deployment-context.md            (env, infra, blue/green, alerts, dashboard)
+│
+└── src/
+    ├── backend/                            ✅ (accounts, invitations — deployed)
+    └── frontend/                           ✅ (pages, components — deployed)
+```
+
+> 📌 এখন চারটা folder-ই পূর্ণ: `standards/`, `intents/`, `bolts/`, `operations/`। `deployment-context.md`-এ env variables, migration history, blue/green config, alert rules আর dashboard — সব লেখা আছে, যাতে পরের deploy বা incident-এ AI context হারায় না।
 
 ---
 
